@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
-import {deleteContact} from 'redux/contactsOperations';
-import { selectIsLoading, selectError,selectRenderContacts  } from 'redux/contactsSelector';
+import {deleteContact} from 'redux/contacts/contactsOperations';
+import { selectIsLoading, selectError,selectRenderContacts  } from 'redux/contacts/contactsSelector';
 
 import { RotatingLines } from  'react-loader-spinner'
 import s from './PhoneList.module.css';

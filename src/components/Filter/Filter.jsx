@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { onChange } from 'redux/contactsFilterSlice';
+import { onChange } from 'redux/contacts/contactsFilterSlice';
 import PropTypes from 'prop-types';
 import s from './Filter.module.css';
 
