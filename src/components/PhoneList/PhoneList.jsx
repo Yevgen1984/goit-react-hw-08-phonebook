@@ -1,30 +1,54 @@
 import { useDispatch, useSelector } from 'react-redux';
-import {deleteContact} from 'redux/contacts/contactsOperations';
-import { selectIsLoading, selectError,selectRenderContacts  } from 'redux/contacts/contactsSelector';
+import {
+  deleteContact,
+  updateContact,
+} from 'redux/contacts/contactsOperations';
+import {
+  selectIsLoading,
+  selectError,
+  selectRenderContacts,
+  selectContacts,
+} from 'redux/contacts/contactsSelector';
 
-import { RotatingLines } from  'react-loader-spinner'
+import { useState } from 'react'; 
+import { RotatingLines } from 'react-loader-spinner';
 import s from './PhoneList.module.css';
+import { UpdateForm } from 'components/UpdateContact/UpdateContact';
 
 export const ContactList = () => {
-   const dispatch = useDispatch();
+  const [contactToUpdate, setContactToUpdate] = useState(null);
+  const dispatch = useDispatch();
   const isLoading = useSelector(selectIsLoading);
-  const error = useSelector(selectError);
-  const renderContacts= useSelector(selectRenderContacts);
+  // const error = useSelector(selectError);
+  const renderContacts = useSelector(selectRenderContacts);
   
+  const showUpdateForm = (contactId) => {
+    const contact = contact.find(({ id }) => id === contactId);
+    setContactToUpdate(contact);
+  };
+
+  const closeForm = () => {
+    setContactToUpdate(null)
+  }
+
   return (
     <>
-    {isLoading && <div className={s.loader}><RotatingLines
-  strokeColor="grey"
-  strokeWidth="5"
-  animationDuration="0.75"
-  width="96"
-  visible={true}
-/></div> }
-      {error && (
+      {isLoading && (
+        <div className={s.loader}>
+          <RotatingLines
+            strokeColor="grey"
+            strokeWidth="5"
+            animationDuration="0.75"
+            width="96"
+            visible={true}
+          />
+        </div>
+      )}
+      {/* {error && (
         <p>
           Sorry!The action was not completed, try again later.
         </p>
-      )}
+      )} */}
       <ul className={s.phoneList}>
         {!renderContacts.length && <p>There are no contacts found!</p>}
         {renderContacts.length > 0 &&
@@ -40,6 +64,13 @@ export const ContactList = () => {
                 >
                   Delete
                 </button>
+                <button
+                  type="button"
+                  onClick={() => dispatch(updateContact(id))}
+                >
+                  Edit
+                </button>
+                {contactToUpdate && contactToUpdate.id === id && <UpdateForm contact={contactToUpdate} closeForm={closeForm} />}
               </li>
             );
           })}
@@ -47,4 +78,3 @@ export const ContactList = () => {
     </>
   );
 };
-

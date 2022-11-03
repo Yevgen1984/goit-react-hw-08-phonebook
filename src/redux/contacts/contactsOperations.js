@@ -1,13 +1,12 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-axios.defaults.baseURL = "https://connections-api.herokuapp.com";
+// axios.defaults.baseURL = "https://connections-api.herokuapp.com";
 
 export const fetchContacts = createAsyncThunk(
   'contacts/fetchAll',
   async (_, { rejectWithValue }) => {
     try {
-      
       const { data } = await axios('/contacts');
       return data;
     } catch (error) {
@@ -37,3 +36,22 @@ export const addContact = createAsyncThunk(
     }
   }
 );
+export const updateContact = createAsyncThunk(
+  'contacts/updateContact',
+  async ({id, ...contact}, { rejectWithValue }) => {
+    try {
+    
+      const editContact = await axios.patch(`/contacts/${id}`, contact);
+      return editContact;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+// export const editContacts = createAsyncThunk('editContacts', async ({ id, ...obj }, thunkApi) => {
+//   try {
+//     const editContact = await editContactsApi(id, obj);
+//     return editContact;
+//   } catch (error) {
+//     return thunkApi.rejectWithValue(error.message);
+//   }

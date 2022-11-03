@@ -1,7 +1,6 @@
-import { Component } from 'react';
 
-export class AddUserForm extends Component {
-  render() {
+export const AddUserForm = () => {
+ 
     return (
       <>
         <form>
@@ -20,4 +19,4 @@ export class AddUserForm extends Component {
       </>
     );
   }
-}
+
