@@ -1,3 +1,11 @@
-export const Button = ({ text, clickHandler }) => {
-    return <button onClick={clickHandler}>{text}</button>
-}
+// import * as React from 'react';
+
+import ButtonOutlined from '@mui/material/Button';
+
+export const Button = ({ text }) => {
+  return (
+    <ButtonOutlined variant="outlined">
+      {text}
+    </ButtonOutlined>
+  );
+};

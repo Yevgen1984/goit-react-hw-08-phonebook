@@ -53,14 +53,13 @@ export const logout = createAsyncThunk(
 export const fetchCurrentUser = createAsyncThunk(
   'auth/refresh',
   async (_, { rejectWithValue, getState }) => {
-    const tokenLS = getState().auth.token;
-    if (!tokenLS) {
+    const tokenFromLocalStorage = getState().auth.token;
+    if (!tokenFromLocalStorage) {
       return rejectWithValue();
     }
-    token.set(tokenLS);
+    token.set(tokenFromLocalStorage);
     try {
       const { data } = await axios('/users/current');
-      // console.log(data);
       return data;
     } catch (error) {
       return rejectWithValue(error);

@@ -36,22 +36,16 @@ export const addContact = createAsyncThunk(
     }
   }
 );
+
 export const updateContact = createAsyncThunk(
   'contacts/updateContact',
-  async ({id, ...contact}, { rejectWithValue }) => {
+  async ({ id, ...contact }, { rejectWithValue }) => {
     try {
-    
-      const editContact = await axios.patch(`/contacts/${id}`, contact);
-      return editContact;
+      const newContact = await axios.patch(`/contacts/${id}`, contact);
+      console.log(newContact);
+      return newContact.data;
     } catch (error) {
       return rejectWithValue(error);
     }
   }
 );
-// export const editContacts = createAsyncThunk('editContacts', async ({ id, ...obj }, thunkApi) => {
-//   try {
-//     const editContact = await editContactsApi(id, obj);
-//     return editContact;
-//   } catch (error) {
-//     return thunkApi.rejectWithValue(error.message);
-//   }

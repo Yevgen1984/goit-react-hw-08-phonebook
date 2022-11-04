@@ -1,35 +1,31 @@
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  deleteContact,
-  updateContact,
-} from 'redux/contacts/contactsOperations';
+import { deleteContact } from 'redux/contacts/contactsOperations';
 import {
   selectIsLoading,
   selectError,
   selectRenderContacts,
-  selectContacts,
 } from 'redux/contacts/contactsSelector';
 
-import { useState } from 'react'; 
+import { useState } from 'react';
 import { RotatingLines } from 'react-loader-spinner';
 import s from './PhoneList.module.css';
 import { UpdateForm } from 'components/UpdateContact/UpdateContact';
 
 export const ContactList = () => {
-  const [contactToUpdate, setContactToUpdate] = useState(null);
+  const [contactToUpdate, setContactToUpdate] = useState({});
   const dispatch = useDispatch();
   const isLoading = useSelector(selectIsLoading);
-  // const error = useSelector(selectError);
+  const error = useSelector(selectError);
   const renderContacts = useSelector(selectRenderContacts);
-  
-  const showUpdateForm = (contactId) => {
-    const contact = contact.find(({ id }) => id === contactId);
+
+  const showUpdateForm = contactId => {
+    const contact = renderContacts.find(({ id }) => id === contactId);
     setContactToUpdate(contact);
   };
 
   const closeForm = () => {
-    setContactToUpdate(null)
-  }
+    setContactToUpdate(null);
+  };
 
   return (
     <>
@@ -44,11 +40,7 @@ export const ContactList = () => {
           />
         </div>
       )}
-      {/* {error && (
-        <p>
-          Sorry!The action was not completed, try again later.
-        </p>
-      )} */}
+      {error && <p>Sorry!The action was not completed, try again later.</p>}
       <ul className={s.phoneList}>
         {!renderContacts.length && <p>There are no contacts found!</p>}
         {renderContacts.length > 0 &&
@@ -56,7 +48,7 @@ export const ContactList = () => {
             return (
               <li key={id} className={s.phoneItem}>
                 <span className={s.phoneName}>{name} :</span>
-                {number}
+                <span className={s.phoneNumber}>{number}</span>
                 <button
                   className={s.btnDelete}
                   type="button"
@@ -66,11 +58,13 @@ export const ContactList = () => {
                 </button>
                 <button
                   type="button"
-                  onClick={() => dispatch(updateContact(id))}
+                  onClick={() => showUpdateForm(id)}
                 >
                   Edit
                 </button>
-                {contactToUpdate && contactToUpdate.id === id && <UpdateForm contact={contactToUpdate} closeForm={closeForm} />}
+                {contactToUpdate?.id === id && (
+                  <UpdateForm contact={contactToUpdate} closeForm={closeForm} />
+                )}
               </li>
             );
           })}

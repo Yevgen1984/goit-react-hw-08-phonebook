@@ -1,20 +1,19 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { updateContact } from "redux/contacts/contactsOperations";
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { updateContact } from 'redux/contacts/contactsOperations';
 
 export const UpdateForm = ({ contact, closeForm }) => {
-  console.log(contact);
-    const [name, setName] = useState(contact.name);
+  const [name, setName] = useState(contact.name);
   const [number, setNumber] = useState(contact.number);
 
   const dispatch = useDispatch();
 
   const handleChange = ({ target: { name, value } }) => {
     switch (name) {
-      case "name":
+      case 'name':
         setName(value);
         break;
-      case "number":
+      case 'number':
         setNumber(value);
         break;
       default:
@@ -22,25 +21,24 @@ export const UpdateForm = ({ contact, closeForm }) => {
     }
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = event => {
     event.preventDefault();
     dispatch(updateContact({ ...contact, name, number }));
-    setName("");
-    setNumber("");
+    setName('');
+    setNumber('');
     closeForm();
   };
 
   return (
-    
     <form onSubmit={handleSubmit}>
       <label>
-        Name:{" "}
+        Name:{' '}
         <input type="text" name="name" onChange={handleChange} value={name} />
       </label>
       <label>
-        Number:{" "}
+        Number:{' '}
         <input
-          type="number"
+          type="tel"
           name="number"
           onChange={handleChange}
           value={number}
