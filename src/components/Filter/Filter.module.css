@@ -1,9 +1,9 @@
 .msgFilter {
-    font-size: 18px;
-    font-weight: 500;
-    margin-left: 15px;
+ 
 }
 
 .inputFilter {
-    margin-left: 15px;
+}
+.inputFilter input {
+  padding: 14px 14px;
 }

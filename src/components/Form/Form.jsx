@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { nanoid } from 'nanoid';
-import s from './Form.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from 'redux/contacts/contactsOperations';
 import { selectContacts } from 'redux/contacts/contactsSelector';
+
+import { Button } from '@mui/material';
+import TextField from '@mui/material/TextField';
+import s from './Form.module.css';
 
 export const Form = () => {
   const [name, setName] = useState('');
@@ -54,34 +56,36 @@ export const Form = () => {
 
   return (
     <form onSubmit={handleSubmit} className={s.formMain}>
-      <label htmlFor={nanoid()}>Name</label>
-      <br />
-      <input
+      <TextField
+        id="outlined-basic"
+        label="Name"
+        variant="outlined"
         type="text"
         name="name"
         value={name}
         onChange={handleChange}
         pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
         title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-        id={nanoid()}
-        className={s.formInput}
         required
       />
-      <br />
-      <label htmlFor={nanoid()}>Number</label>
-      <br />
-      <input
+
+      <TextField
+        id="outlined-basic2"
+        label="Number"
+        variant="outlined"
         type="tel"
         name="number"
         value={number}
         onChange={handleChange}
+        autoComplete="false"
         pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
         title="  number must be digits and can contain spaces, dashes, parentheses and can start with +"
-        id={nanoid()}
         required
       />
-      <br />
-      <button className={s.btnForm}>Add contact</button>
+
+      <Button type="submit" variant="outlined" margin="0">
+        Add contact
+      </Button>
     </form>
   );
 };

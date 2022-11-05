@@ -5,11 +5,13 @@ import {
   selectError,
   selectRenderContacts,
 } from 'redux/contacts/contactsSelector';
-
 import { useState } from 'react';
 import { RotatingLines } from 'react-loader-spinner';
-import s from './PhoneList.module.css';
 import { UpdateForm } from 'components/UpdateContact/UpdateContact';
+import Button from '@mui/material/Button';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import s from './PhoneList.module.css';
 
 export const ContactList = () => {
   const [contactToUpdate, setContactToUpdate] = useState({});
@@ -47,21 +49,28 @@ export const ContactList = () => {
           renderContacts.map(({ id, name, number }) => {
             return (
               <li key={id} className={s.phoneItem}>
-                <span className={s.phoneName}>{name} :</span>
-                <span className={s.phoneNumber}>{number}</span>
-                <button
-                  className={s.btnDelete}
-                  type="button"
-                  onClick={() => dispatch(deleteContact(id))}
-                >
-                  Delete
-                </button>
-                <button
-                  type="button"
-                  onClick={() => showUpdateForm(id)}
-                >
-                  Edit
-                </button>
+                <div className={s.itemWrap}>
+                  <div className={s.spanWrap}>
+                    <span className={s.phoneName}>☎ {name} :</span>
+                    <span className={s.phoneNumber}>{number}</span>
+                  </div>
+                  <div className={s.phoneButtons}>
+                    <Button
+                      className={s.btnDelete}
+                      variant="outlined"
+                      startIcon={<DeleteIcon />}
+                      onClick={() => dispatch(deleteContact(id))}
+                    ></Button>
+
+                    <Button
+                      className={s.btnDelete}
+                      variant="outlined"
+                      startIcon={<EditIcon />}
+                      onClick={() => showUpdateForm(id)}
+                    ></Button>
+                  </div>
+                </div>
+
                 {contactToUpdate?.id === id && (
                   <UpdateForm contact={contactToUpdate} closeForm={closeForm} />
                 )}
